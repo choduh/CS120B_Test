@@ -22,28 +22,26 @@ int main(void) {
 	unsigned char tempA = 0x00;
 	unsigned char tempB = 0x00;
 	unsigned char tempC = 0x00;
-	unsigned char tempD = 0x00;
 	unsigned char passWeight  = 0x00;
 		
     /* Insert your solution below */
     while (1) {
-
+	
+	PORTD = 0x00;
 	tempA = PINA;
 	tempB = PINB;
 	tempC = PINC;
 	
 	passWeight = tempA + tempB + tempC;
-	if(tempA + tempB + tempC > 140){
-		tempD = tempD | 0x01; //car exceeding 140kg is stored in tempD
-		PORTD = tempD;
+	PORTD = passWeight >> 2;
+	PORTD = PORTD << 2;
+	if(passWeight > 140){
+		PORTD = PORTD | 0x01; //car exceeding 140kg is stored in tempD
 	}
 	if((tempA - tempB) > 80){
-		tempD = tempD | 0x02; // difference of car A and C exceeding 80 stored in tempD
-		PORTD = tempD;
+		PORTD = PORTD | 0x02; // difference of car A and C exceeding 80 stored in tempD
 	}
 	
-	tempD = passWeight +(tempD >> 2);
-	PORTD = tempD;
 	
     }
 	

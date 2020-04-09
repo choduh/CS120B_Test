@@ -1,7 +1,8 @@
-Breakpoint 1 at 0xf4: file source/main.c, line 29.
+Breakpoint 1 at 0xf2: file source/main.c, line 28.
 Note: automatically using hardware breakpoints for read-only addresses.
 ======================================================
 Running all tests..."
 
-"WEIGHT > 140 => PORTD: 0x01"..."Weight > 80 => PORTD: 0x02"...======================================================
+"WEIGHT > 140 => PORTD: 0x91"..."Weight > 80 => PORTD: 0x60"...evaluation of this expression requires the program to have a function "malloc".
+======================================================
 Quitting: Remote doesn't know how to detach

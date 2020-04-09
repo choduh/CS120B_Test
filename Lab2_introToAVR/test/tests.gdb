@@ -28,24 +28,34 @@ echo Running all tests..."\n\n
 
 
 # Example test:
-test "WEIGHT > 140 => PORTD: 0x01"
+test "WEIGHT > 140 => PORTD: 0x91"
 # Set inputs
-setPINA 56
-setPINB 0
-setPINC 85
+setPINA 0x30
+setPINB 0x30
+setPINC 0x30
 # Continue for several ticks
 continue 5
 #  Set expect values
-expectPORTD 0xbb
+expectPORTD 0x91
 #  Check pass/fail
 checkResult
 
-test "Weight > 80 => PORTD: 0x02"
-setPINA 85
-setPINB 4
+test "Weight > 80 => PORTD: 0x60"
+setPINA 0x20
+setPINB 0x20
+setPINC 0x20
 continue 5
-expectPORTD 0xe7
+expectPORTD 0x60
 checkResult
+
+t "Weight < 80 => PORTD: 0x00"
+setPINA 0x00
+setPINB 0x00
+setPINC 0x00
+continue 5
+expectPORTD 0x00
+checkResult
+
 
 # Report on how many tests passed/tests ran
 set $passed=$tests-$failed
