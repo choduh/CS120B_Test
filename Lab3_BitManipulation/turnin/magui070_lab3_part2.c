@@ -21,36 +21,46 @@ int main(void) {
     DDRC = 0xFF; PORTC = 0x00;
 
 
-    unsigned char tank = 0x00;
-    unsigned char needle  = 0x00;
+    unsigned char tank;
    
    
     /* Insert your solution below */
     while (1) {
 
-	
+	tank = 0x00;
 	tank = PINA & 0x0F;
-	if((tank == 0x01) || (tank == 0x02)){
-		needle = needle | 0x60;
-	}	
-	else if((tank == 0x03) || (tank == 0x04)){
-		needle = needle | 0x70;
+	if(tank <= 4){
+		PORTC = 0x40;
 	}
-	else if((tank == 0x05) || (tank == 0x06)){
-		needle = needle | 0x38;
+	else{
+		PORTC =0x00;
 	}
-	else if((tank == 0x07) || (tank == 0x08) || (tank == 0x09)){
-		needle = needle |0x3C;
+	
+	if(tank == 0x01 || tank == 0x02){
+		PORTC = PORTC | 0x20;
+		
 	}
-	else if((tank == 0x0A) || (tank == 0x0B) || (tank == 0x0C)){
-		needle = needle | 0x3E;
+	else if(tank == 3 || tank == 4){
+		PORTC = PORTC | 0x30;
 	}
-	else if((tank == 0x0D) || (tank == 0x0E) || (tank == 0x0F)){
-		needle = needle | 0x3F;
+	else if (tank == 5 || tank == 6){
+		
+		PORTC = PORTC | 0x38;
 	}
-	PORTC = needle;
+	else if(tank >= 7 && tank <=9){
+		PORTC = PORTC | 0x3C;
+		
+	}
+	else if(tank >= 10 && tank <= 12){
+		PORTC = PORTC | 0x3E;
+	}
+	else if(tank >= 13 && tank <= 15){
+		PORTC = PORTC | 0x3F;
+	}
+	
+	
 
-
-    }
-    return 0;
+	
+}
+    return 1;
 }

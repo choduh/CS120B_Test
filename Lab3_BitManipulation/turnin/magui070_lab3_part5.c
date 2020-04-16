@@ -23,13 +23,14 @@ int main(void) {
 
     unsigned char tempB = 0x00;
     unsigned char tempD  = 0x00;
-    unsigned char weight = 0;
-    unsigned char out = 0;
+    unsigned char weight;
+    unsigned char out;
    
    
     /* Insert your solution below */
     while (1) {
-	
+	weight = 0x00;
+	out = 0x00;
 	tempB = PINB & 0x01;
 	tempD = PIND & 0xFF;
 	weight = weight + tempB;
