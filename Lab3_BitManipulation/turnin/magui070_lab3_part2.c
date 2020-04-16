@@ -39,20 +39,24 @@ int main(void) {
 	else if(tank > 6){
 		needle = 0x3C;
 	}
-	else if(tank > 4){
-		needle = 0x34;
-	}
 	else if(tank > 2){
-		needle = 0x70;
+		needle = 0x30;
 	}
-	else if(tank >=0){
-		needle = 0x60;
+	else if(tank > 0){
+		needle = 0x20;
 	}
 
 	else{
-		needle = 0x40;
+		needle = 0x00;
 	}	
 	PORTC = needle;
+
+	if(tank < 5){
+		PORTC = tank | 0x40;	
+	}
+	else{
+		PORTC = meter;
+	}
 
     }
     return 0;

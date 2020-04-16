@@ -28,6 +28,10 @@ int main(void) {
     /* Insert your solution below */
     while (1) {
 
+	unsigned char low = 0x00;
+	unsigned char key = PINA & 0x10;
+	unsigned char seat = PINA & 0x20;
+	unsigned char seatbelt = PINA & 0x40;
 	
 	tank = PINA & 0x0F;
 	if(tank > 12){
@@ -53,6 +57,11 @@ int main(void) {
 		needle = 0x40;
 	}
 	if((tank & 0x30) == 0x30){
+		needle = 0x80;
+	}
+
+
+	if((key == 0x10) && (seat == 0x20)&& (seatbelt == 0x00)){
 		needle = 0x80;
 	}
 	PORTC = needle;
