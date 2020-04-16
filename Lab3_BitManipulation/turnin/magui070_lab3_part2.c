@@ -30,33 +30,26 @@ int main(void) {
 
 	
 	tank = PINA & 0x0F;
-	if(tank > 12){
-		needle = 0x3F;
-	}
-	else if ( tank > 9){
-		needle = 0x3E;
-	}
-	else if(tank > 6){
-		needle = 0x3C;
-	}
-	else if(tank > 2){
-		needle = 0x30;
-	}
-	else if(tank > 0){
-		needle = 0x20;
-	}
-
-	else{
-		needle = 0x00;
+	if((tank == 0x01) || (tank == 0x02)){
+		needle = needle | 0x60;
 	}	
+	else if((tank == 0x03) || (tank == 0x04)){
+		needle = needle | 0x70;
+	}
+	else if((tank == 0x05) || (tank == 0x06)){
+		needle = needle | 0x38;
+	}
+	else if((tank == 0x07) || (tank == 0x08) || (tank == 0x09)){
+		needle = needle |0x3C;
+	}
+	else if((tank == 0x0A) || (tank == 0x0B) || (tank == 0x0C)){
+		needle = needle | 0x3E;
+	}
+	else if((tank == 0x0D) || (tank == 0x0E) || (tank == 0x0F)){
+		needle = needle | 0x3F;
+	}
 	PORTC = needle;
 
-	if(tank < 5){
-		PORTC = tank | 0x40;	
-	}
-	else{
-		PORTC = meter;
-	}
 
     }
     return 0;
