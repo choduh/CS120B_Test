@@ -12,98 +12,51 @@
 #include "simAVRHeader.h"
 #endif
 
-enum button{START, init, seq1,seq2, wait}state;
-
-unsigned char B1;
-
-
-void LED_ON(){
-	B1 = ~PINA & 0x01;
-	
-	
-
-	switch (state){
-
-		case START:
-			PORTC = 0x00;
-			state = seq1;
-			break;
-		case init:
-			if(B1 == 0x01){
-				state = seq1;
-			}
-			else if(B1 == 0x02){
-				state = seq2;
-			}
-			else{
-				state = init;	
-			}
-			break;
-		case seq1:
-			state = wait;	
-			break;
-		case seq2:
-			state = init;
-			break;
-		case wait:
-			if(B1 == 0x01){
-				state = wait;
-			}
-			else if(B1 == 0x02){
-
-				state = wait;
-			}
-			else if(B1 == 0x00){
-				state = init;
-			}			
-
-			break;
-		default:
-			break;
-		
-	}
-	switch(state){
-		case START:
-			break;
-		case init:
-			break;
-		case seq1:
-			if(PORTC == 0x00){
-				PORTC = (PORTC << 1);
-			}
-			else{
-				PORTC = 0x01;
-			}
-			if(PORTC == 0x04){
-				PORTC = 0x38;
-			}
-			break;
-		case seq2:
-			
-			break;
-		case wait:
-			break;
-		default:
-			break;
-			
-	}
-	
-
-}
-
 int main(void) {
     /* Insert DDR and PORT initializations */
 	
     DDRA = 0x00; PORTA = 0xFF;
     DDRC = 0xFF; PORTC = 0x00;
-    /* Insert your solution below */
-
    
-    state = START;
- 
-  
+
+
+    unsigned char tank, level;
+    
+   
+    /* Insert your solution below */
     while (1) {
-	LED_ON();	
-    }
+
+	level = 0x00;
+	tank = ~PINA & 0x0F;
+	if(tank <= 4){
+		level = 0x40;
+	}
+	else{
+		level = 0x00;
+	}
+	if(tank == 0x01 || tank == 0x02){
+		level = level | 0x20;
+	}
+	else if(tank == 3 || tank == 4){
+		level = level | 0x30;
+	}
+	else if(tank == 5 || tank == 6){
+		level = 0x38;
+	}
+	else if(tank >= 7 && tank <= 9){
+		level = level | 0x3C;
+	}
+	else if(tank >= 10 && tank <= 12){
+		level = level |	0x3E;
+	}
+	else if(tank >= 13 && tank <= 15){
+		level = level | 0x3F;
+	}
+	
+	PORTC = level;
+
+	
+   }	
+	
     return 1;
 }
