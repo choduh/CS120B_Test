@@ -16,18 +16,35 @@
 
 int main(void) {
     /* Insert DDR and PORT initializations */
-     DDRD = 0xFF; PORTD = 0x00;
+     DDRA = 0x00; PORTA = 0xFF;
      DDRC = 0xFF; PORTC = 0x00;
+     DDRD = 0xFF; PORTD = 0x00;
 
+    unsigned char number = 0x00;
 
+    TimerSet(10);
+    TimerOn();
 
     LCD_init();
 
-    LCD_DisplayString(1, "Hello World");
+    LCD_WriteData('0');
 
     /* Insert your solution below */
     while (1) {
-	continue;
+	if((~PINA & 0x01) && (~PINA & 0x02)){
+		number = 0x00;
+	}
+	else if((~PINA & 0x01) && (number < 9)){
+		number += 0x01;
+	}
+	else if((~PINA & 0x02) && (number >=1)){
+		number -= 0x01;
+	}
+	
+	while(!TimerFlag){};
+	TimerFlag = 0;
+	LCD_Cursor(1);
+	LCD_WriteData('0' + number);	
     }
     
 }
