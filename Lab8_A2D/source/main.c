@@ -25,18 +25,23 @@ int main(void) {
 	DDRB = 0xFF; PORTB =0x00;
 	DDRD = 0xFF; PORTD = 0x00;
 
-	unsigned char b_8 = 0x00;
-	unsigned char d_2 = 0x00;
-	unsigned short x = ADC;
+
+	//unsigned short x = 0x38;
 
 	ADC_init();
+
     /* Insert your solution below */
     while (1) {
-	x = ADC;
-	b_8 = (char)x;
-	d_2 = (char)(x >> 8);
-	PORTB = b_8;
-	PORTD = d_2;
+
+	if(ADC >= (100/2)){
+		PORTB = 0xFF;
+		PORTD = 0x00;
+	}
+	else{
+		PORTB = 0x00;
+		PORTD = 0x00;	
+	}
+	
     }
     return 0;
 }
