@@ -1,7 +1,7 @@
 /*	Author: magui070
  *  Partner(s) Name: 
  *	Lab Section:
- *	Assignment: Lab #11  Exercise #2
+ *	Assignment: Lab #11  Exercise #1
  *	Exercise Description: [optional - include for your own benefit]
  *
  *	I acknowledge all content contained herein, excluding template or example
@@ -13,13 +13,10 @@
 #include "keypad.h"
 #include "scheduler.h"
 #include "bit.h"
-#include "io.h"
-#include "io.c"
 #include "simAVRHeader.h"
 #endif
 
 
-unsigned char cursor_pos = 37;
 
 enum keySTATES {start} keypad_state;
 
@@ -58,56 +55,22 @@ int keypadTick(int keypad_state){
 	return keypad_state;
 }
 
-enum  STATES{dary}dary_state;
-
-int daryTick(int dary_state){
-
-	switch(dary_state){
-		case dary:
-			dary_state = dary;
-		break;
-		default:
-			dary_state = dary;
-		break;
-		
-	}
-	switch(dary_state){
-		case dary:
-			LCD_ClearScreen();
-			LCD_Cursor(cursor_pos);
-			if(cursor_pos <=-37){
-				cursor_pos =63;
-			}
-			LCD_DisplayString(cursor_pos, "CS120B is Legend... wait for it DARY!");
-			cursor_pos--;
-			break;
-		default:
-		break;	
-	}
-	return dary_state;
-}
-
 int main(void) {
     /* Insert DDR and PORT initializations */
 	
 	DDRA = 0xFF; PORTA = 0x00;
-	DDRB = 0xFF; PORTB = 0x00;
-	DDRC = 0xFF; PORTC = 0x00;
-	DDRD = 0xFF; PORTD = 0x00;
+	DDRC = 0x00; PORTC = 0xFF;
 
 	static task t1;
 	task *tasks[] = {&t1};
 	const unsigned short numTasks = sizeof(tasks)/sizeof(task*);
 
 	
-	t1.state = dary;
-	t1.period = 200;
+	t1.state = start;
+	t1.period = 50;
 	t1.elapsedTime = t1.period;
-	t1.TickFct = &daryTick;
+	t1.TickFct = &keypadTick;
 
-
-	LCD_init();
-	LCD_ClearScreen();
 	TimerSet(50);
 	TimerOn();
 	
@@ -126,7 +89,7 @@ int main(void) {
 		tasks[i]->elapsedTime += 50;
 	}
 	
-	//keypadTick(start);
+	keypadTick(start);
 	while(!TimerFlag);
 	TimerFlag = 0;
 	
